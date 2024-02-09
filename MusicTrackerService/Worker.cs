@@ -1,23 +1,24 @@
-namespace MusicTrackerService;
-
-public class Worker : BackgroundService
+namespace MusicTrackerService
 {
-    private readonly ILogger<Worker> _logger;
-
-    public Worker(ILogger<Worker> logger)
+    public class Worker : BackgroundService
     {
-        _logger = logger;
-    }
+        private readonly ILogger<Worker> _logger;
 
-    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
-    {
-        while (!stoppingToken.IsCancellationRequested)
+        public Worker(ILogger<Worker> logger)
         {
-            if (_logger.IsEnabled(LogLevel.Information))
+            _logger = logger;
+        }
+
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        {
+            while (!stoppingToken.IsCancellationRequested)
             {
-                _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+                if (_logger.IsEnabled(LogLevel.Information))
+                {
+                    _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+                }
+                await Task.Delay(1000, stoppingToken);
             }
-            await Task.Delay(1000, stoppingToken);
         }
     }
 }
